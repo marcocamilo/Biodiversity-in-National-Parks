@@ -10,7 +10,7 @@ execute:
 
 ## Introduction
 
-This project explores biodiversity data from the National Parks Service about endangered species in various parks. In particular, the project devles into the conservation statuses of endangered species to see if there are any patterns regarding the type of species the become endangered. The goal of this project will be to perform an Exploratory Data Analysis and explain findings from the analysis in a meaningful way.
+This project explores biodiversity data from the National Parks Service about endangered species in various parks. In particular, the project delves into the conservation statuses of endangered species to see if there are any patterns regarding the type of species the become endangered. The goal of this project will be to perform an Exploratory Data Analysis and explain findings from the analysis in a meaningful way.
 
 **Sources:**
 Both `Observations.csv` and `Species_info.csv` was provided by [Codecademy.com](https://www.codecademy.com).
@@ -59,12 +59,17 @@ species = pd.read_csv('species_info.csv')
 
 ## Preview the Data
 
-To prepare the data for analysis, we'll scope both datasets using the `.sample()` and `.info()` functions.
+To prepare for our exploratory data analysis, we'll first conduct an initial preview of the data. This will involve sampling a subset of the data and inspecting its structure and characteristics.
 
 ### `species.csv`
 
+Let's begin by examening the `species` dataset.
+
 ```{python}
-species.info()
+display("SAMPLE OF SPECIES DATASET:")
+display(species.sample(5))
+display("INFORMATION ABOUT THE SPECIES DATASET:")
+display(species.info())
 ```
 
 The `species` dataset shows 5824 entries with four variables:
@@ -74,37 +79,32 @@ The `species` dataset shows 5824 entries with four variables:
 - **common_names**: common names of each species.
 - **conservation_status**: species' conservation status.
 
-According to the `.info()`, the last column shows a discrepant amount of entries (191) compared to the total number of entries in the dataset, demonstrating there is missing data.
-
-Regarding data types, columns may remain as objects, since they do not contain neither numerical nor ordinal variables. An argument could be made for `conservation_status` given its ordinal nature. However, since not all values of conservation_statuses are present, and since the position of `in recovery` as an ordinal variable is ambiguous, the column may be left alone as an object. Nevertheless, below we preview a few rows from the dataset.
-
-```{python}
-display(species.sample(5))
-```
+Upon inspection with .info(), we observe that the conservation_status column contains 191 non-null entries, indicating a high presence of missing values. While the majority of columns may retain their data type as objects, an argument could be made for converting conservation_status to an ordinal variable.  However, due to the presence of incomplete conservation statuses and the ambiguity surrounding the ordinal nature of `in recovery`, we'll retain it as an object.
 
 ### `observations.csv`
 
+We'll now move on to the `observations` dataset.
+
 ```{python}
-display(observations.info(), '\n')
+display("SAMPLE OF SPECIES DATASET:")
+display(observations.sample(5))
+display("INFORMATION ABOUT THE SPECIES DATASET:")
+display(observations.info())
 ```
 
-According to the information displayed above, the `observations` dataset contains there are three columns:
+The `observations` dataset consists of three columns:
 
 - **scientific_name**: scientific name of each species.
 - **park_name**: name of the national park species are located in.
 - **observations**: number of observations in the past 7 days.
 
-The columns don't show any missing data, and the data types seem to be appropriate for the analysis. Below we preview a sample of the rows.
-
-```{python}
-observations.sample(5)
-```
+Based on the information above, the columns don't show any missing data, and the data types seem to be appropriate for the analysis.
 
 ## Exploratory Data Analysis
 
 ### `species.csv`
 
-We will start by exploring the `species` dataset more in detail. To explore the characteristics of each column, we've created a function that loops over the columns and prints out the unique value count, the null value count, and a preview of the top most frequent values along with their counts. 
+Let's delve deeper into the species dataset to gain insights into its characteristics and identify any anomalies or patterns. We'll begin by employing a custom function `column_eda()` to analyze each column:
 
 ```{python}
 def column_eda(dataset):
@@ -115,16 +115,16 @@ def column_eda(dataset):
               f'Non-null values: {dataset[col].notnull().sum()}',
               f'Missing values: {dataset[col].isnull().sum()}\n', 
               sep='\n')
-        print(dataset[col].value_counts().reset_index().head(4))
+        print(dataset[col].value_counts().head(4))
 
 column_eda(species)
 ```
 
-The function shows there are 7 categories of species, 5541 species, 5504 common names and 4 conservation statuses. Some preliminary remarks can be made from a first glance:
+The function shows there are 7 categories of species, 5541 species, 5504 common names and 4 conservation statuses. From the analysis, several insights emerge:
 
-1. `conservation_status` displays a high number of `nan` values (5633), which, given the available categories, may well be treated as 'species of no concern' or with 'no intervention'. 
+1. **Missing Conversation Statuses**: the `conservation_status` column exhibits a high number of `nan` values (5633), which could be interpreted as 'species of no concern' or requiring 'no intervention'. 
 
-To attend this, I'll change the missing values in the `conservation_status` column to "No intervention", giving this column a total of 5 statuses.
+To address this, we'll impute the missing values with "No intervention", expanding the conservation status categories to five.
 
 ```{python}
 print('Old conservation status:\n', list(species.conservation_status.unique()))
@@ -134,9 +134,9 @@ species.conservation_status = species.conservation_status.fillna('No interventio
 print('New conservation status:\n', list(species.conservation_status.unique()))
 ```
 
-2. There is a discrepancy between the number of unique values of `scientific_name` and `common_names` despite all entries having non-null values. This points to the presence of duplicate common names for different species. 
+2. **Duplicate Entries**: there is a discrepancy between the number of unique values of `scientific_name` and `common_names` despite all entries having non-null values. This points to the presence of duplicate common names for different species. 
 
-To confirm this claim, I'll scope both columns for duplicates.
+We'll confirm this by identifying and examining these duplicates.
 
 ```{python}
 duplicates = species.duplicated().sum()
@@ -145,22 +145,24 @@ print(f'Overall duplicates (rows): {duplicates}')
 repeated_scientific_names = species.duplicated(subset=['scientific_name']).sum()
 print(f'Duplicated scientific names: {repeated_scientific_names}')
 
-repeated_common_names =species.duplicated(subset=['common_names']).sum() 
+repeated_common_names = species.duplicated(subset=['common_names']).sum()
 print(f'Duplicated common names: {repeated_common_names}')
 ```
 
-The presence of more duplicates for common names than scientific names confirms the existence of multiple species having the same common name. To demonstrate this, we will print the most frequent common name along with the corresponding scientific names attached to it.
+To illustrate, we'll display the most frequent common name alongside its associated scientific names.
 
 ```{python}
 display(species.common_names.value_counts().reset_index()[:5])
 display(species.query("common_names == 'Brachythecium Moss'")[['common_names', 'scientific_name']])
 ```
 
-As seen above, the most frequent common name is *Brachythecium Moss*, with a total of 7 different species named as such. Organisms in this example all share the same genus (i.e. brachythecium, a genus of moss), but differ in species, thus the different scientific names.
+As seen above, the most frequent common name is *Brachythecium Moss*, with a total of 7 different species identified with this name. Organisms in this example all share the same genus (i.e. *brachythecium*, a genus of moss), but differ in species, thus the different scientific names.
 
-Another open question is the fact that there are duplicates in `scientific_name`. Since the dataset contains observations about the different species, one would expect for there to be one observation per species. However, the duplicate scientific names indicate the presence of duplicate observations of the same species in the dataset. 
+This demonstrates instances where multiple species share identical common names but differ in scientific nomenclature.
 
-Since there are no overall duplicates in the dataset (see above), these duplicate names must have some difference at the row level. To delve deeper into this, we'll print out a sample of duplicates and inspect three random dumplicates species, to see what kind of differences are there within the rows themselves.
+3. **Duplicate Scientific Names**: the presence of duplicate scientific names suggests repeated observations of the same species, since the dataset should report the conservation status of each species, thus one observation per species. 
+
+Since there are no overall duplicates in the dataset (see above), these duplicate names must have some difference at the row level. To confirm this, we'll print out a sample of duplicates and inspect three random duplicates species, to see what kind of differences are there within the rows themselves.
 
 ```{python}
 duplicated_species = species[species['scientific_name'].duplicated(keep=False)]
@@ -181,7 +183,7 @@ for scientific_name in scientific_names_to_check:
 It seems that both the number of common names and the types of conservation statuses are different for duplicate observations. That is, the same species exhibits both different common names, as well as conservation statuses. To solve the question of duplicates, given the differences in conversation statuses do not affect our question on the likelihood of endangerment given a species' protection status, I'll retain the first instance of these duplicates.
 
 ```{python}
-species = species.drop_duplicates(subset = ['scientific_name'], keep= 'first')
+species = species.drop_duplicates(subset=['scientific_name'], keep='first')
 
 repeated_scientific_names = species.scientific_name[species.scientific_name.duplicated()]
 print(f'Duplicated scientific names: {len(repeated_scientific_names)}\n')
@@ -193,38 +195,63 @@ display(species[species['scientific_name'].isin(scientific_names_to_check)])
 
 ### `observations.csv`
 
-I'll perform the same analysis as above with the second dataset. I'll scope the columns for unique values, the amount of nun-null values, and the top most frequent values along with their counts. 
+Let's extend our exploratory analysis to the observations dataset, mirroring the approach applied to the species dataset. We'll begin by employing the `column_eda()` function to analyze each column.
 
 ```{python}
 column_eda(observations)
 ```
 
-The EDA for this dataset reveals there 23296 observations of 5541 unique species documented in 4 parks. The EDA for the `observations` column doesn't reveal much useful information, given this is a numerical variable. 
+The column analysis revelas the following insights. There are 23296 observations of 5541 unique species documented in 4 parks. The number of species (`scientific_name`) in the `observations` datset coincides with the number of species in the `species` dataset. This suggest that the `observations` dataset contains observations of all species in the `species` dataset. To confirm this, we'll check if the `scientific_name` column in the `observations` dataset is a subset of the `scientific_name` column in the `species` dataset.
 
-However, this variable may proove usefull in answering some of the questions introduced above. To better explore this column given its data type, I'll provide here some descriptive statistics on it.
+```{python}
+species_names = species.scientific_name
+observations_names = observations.scientific_name
+
+print(f'Is the observations dataset a subset of the species dataset? {observations_names.isin(species_names).all()}')
+```
+
+The result confirms that the `observations` dataset is a subset of the `species` dataset, as all species in the `observations` dataset are also present in the `species` dataset.
+
+Furthermore, as `observations` is a numerical variable, its distribution provides insights into the frequency of species sightings. To better explore this column given its data type, I'll provide here some descriptive statistics on it.
 
 ```{python}
 print(observations.observations.describe())
 
-sns.histplot(x = 'observations', data = observations, kde=True)
+sns.histplot(x='observations', data=observations, kde=True)
 plt.show()
 
-print('Total number of observations:', observations.observations.sum(), 'in the past 7 days.')
+display(f'Total number of observations: {observations.observations.sum()} in the past 7 days.')
 ```
+
+The distribution of in the number of observations seems to follow a multimodal distribution, with at least three discernible peaks in the data: one at 80, another at 150, and a third at 250. This may suggest that the overall distribution is a combination of several distributions, grouped by a certain variable. Given the low number of disceernible peaks, this variable might be the `park_name` variable. That is: the distribution in the number of observations may be influenced by the size of the parks they were made in.
+
+To confirm this, we'll plot the distribution of observations per park using the `hue` parameter in the seaborn histplot function.
+
+```{python}
+sns.histplot(x='observations', data=observations, kde=True, hue='park_name')
+plt.show()
+```
+
+As suspected, the distribution of observations is indeed influenced by the park in which they were made. The peaks in the distribution clearly correspond to each of the four parks in the dataset. This proves that the number of observations is influenced by the park in which they were made.
 
 ### Summary
 
-To summarize the findings of this EDA, I outline below the chief characteristics of both datasets.
+To encapsulate the insights obtained from our Exploratory Data Analysis (EDA), we present the key characteristics of both datasets.
 
 #### `species`
-- Has 4 variables: category (the species taxonomy), scientific_name, common_names and conservation_status.
-- All variables are either categorical or nominal.
-- The data shows observations for 5541 unique species among 7 types, having 5504 common names and displaying 5 conservation statuses.
+
+- **Dataset Overview**: the data comprises 5,824 entries with 4 variables—category, scientific_name, common_names, and conservation_status—offering a diverse array of taxonomic information.
+- **Missing Values**: the conservation_status column contains 5,633 missing values, which were imputed with "No intervention" to account for species not under any conservation status.
+- **Duplicates**: the dataset contains no overall duplicates, but does exhibit duplicate scientific names, which were resolved by retaining the first instance of each duplicate.
+- **Common Names**: the dataset contains 5541 species, with some sharing identical common names but differing in scientific nomenclature.
+- **Conservation Status**: the dataset reports 5 conservation statuses, with most species not under any conservation status.
 
 #### `observations`
-- Has 3 variables: scientific_name, park_name and number of observations in the past 7 days.
-- The variables are nominal, categorical and numerical respectively.
-- The data shows 23296 entries of 5541 unique species documented in 4 parks in a total of 3314739 observations in the past 7 days.
+
+- **Dataset Overview**: the data consists of 23,296 entries with 3 variables—scientific_name, park_name, and observations—documenting species sightings in 4 national parks over 7 days.
+- **Unique Species**: the dataset contains observations of 5,541 unique species, all of which are present in the `species` dataset.
+- **Missing Values**: the dataset contains no missing values, with all columns having non-null entries.
+- **Distribution**: the number of observations followed a multimodal distribution, which was influenced by the park in which observations were conducted.
 
 ## Analysis
 

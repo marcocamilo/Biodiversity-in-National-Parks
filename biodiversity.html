@@ -101,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This project explores biodiversity data from the National Parks Service about endangered species in various parks. In particular, the project devles into the conservation statuses of endangered species to see if there are any patterns regarding the type of species the become endangered. The goal of this project will be to perform an Exploratory Data Analysis and explain findings from the analysis in a meaningful way.</p>
+<p>This project explores biodiversity data from the National Parks Service about endangered species in various parks. In particular, the project delves into the conservation statuses of endangered species to see if there are any patterns regarding the type of species the become endangered. The goal of this project will be to perform an Exploratory Data Analysis and explain findings from the analysis in a meaningful way.</p>
 <p><strong>Sources:</strong> Both <code>Observations.csv</code> and <code>Species_info.csv</code> was provided by <a href="https://www.codecademy.com">Codecademy.com</a>.</p>
 <section id="project-goals" class="level3">
 <h3 class="anchored" data-anchor-id="project-goals">Project Goals</h3>
@@ -136,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="importing-modules-and-data-from-files" class="level2">
 <h2 class="anchored" data-anchor-id="importing-modules-and-data-from-files">Importing Modules and Data from Files</h2>
 <p>First, we will import the preliminary modules for this project, along with the data from the two separate files provided for this analysis.</p>
-<div id="4379ec22" class="cell" data-execution_count="1">
+<div id="d1e6a875" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
@@ -148,36 +148,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="preview-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="preview-the-data">Preview the Data</h2>
-<p>To prepare the data for analysis, we’ll scope both datasets using the <code>.sample()</code> and <code>.info()</code> functions.</p>
+<p>To prepare for our exploratory data analysis, we’ll first conduct an initial preview of the data. This will involve sampling a subset of the data and inspecting its structure and characteristics.</p>
 <section id="species.csv" class="level3">
 <h3 class="anchored" data-anchor-id="species.csv"><code>species.csv</code></h3>
-<div id="98d587d6" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>species.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 5824 entries, 0 to 5823
-Data columns (total 4 columns):
- #   Column               Non-Null Count  Dtype 
----  ------               --------------  ----- 
- 0   category             5824 non-null   object
- 1   scientific_name      5824 non-null   object
- 2   common_names         5824 non-null   object
- 3   conservation_status  191 non-null    object
-dtypes: object(4)
-memory usage: 182.1+ KB</code></pre>
+<p>Let’s begin by examening the <code>species</code> dataset.</p>
+<div id="ad173461" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"SAMPLE OF SPECIES DATASET:"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>display(species.sample(<span class="dv">5</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"INFORMATION ABOUT THE SPECIES DATASET:"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>display(species.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'SAMPLE OF SPECIES DATASET:'</code></pre>
 </div>
-</div>
-<p>The <code>species</code> dataset shows 5824 entries with four variables:</p>
-<ul>
-<li><strong>category</strong>: taxonomy for each species.</li>
-<li><strong>scientific_name</strong>: scientific name of each species.</li>
-<li><strong>common_names</strong>: common names of each species.</li>
-<li><strong>conservation_status</strong>: species’ conservation status.</li>
-</ul>
-<p>According to the <code>.info()</code>, the last column shows a discrepant amount of entries (191) compared to the total number of entries in the dataset, demonstrating there is missing data.</p>
-<p>Regarding data types, columns may remain as objects, since they do not contain neither numerical nor ordinal variables. An argument could be made for <code>conservation_status</code> given its ordinal nature. However, since not all values of conservation_statuses are present, and since the position of <code>in recovery</code> as an ordinal variable is ambiguous, the column may be left alone as an object. Nevertheless, below we preview a few rows from the dataset.</p>
-<div id="35d79dcd" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>display(species.sample(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -195,38 +177,38 @@ memory usage: 182.1+ KB</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">1054</td>
+<td data-quarto-table-cell-role="th">1095</td>
 <td>Vascular Plant</td>
-<td>Microthlaspi perfoliatum</td>
-<td>Claspleaf Pennycress</td>
+<td>Silene dichotoma</td>
+<td>Dichotoma Silene</td>
 <td>NaN</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">2815</td>
-<td>Nonvascular Plant</td>
-<td>Brachythecium plumosum</td>
-<td>Brachythecium Moss</td>
+<td data-quarto-table-cell-role="th">3984</td>
+<td>Vascular Plant</td>
+<td>Xerophyllum tenax</td>
+<td>Common Beargrass</td>
 <td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">1493</td>
-<td>Vascular Plant</td>
-<td>Sabatia campanulata</td>
-<td>Campanulate Sabatia, Slender Marsh Pink</td>
+<td data-quarto-table-cell-role="th">277</td>
+<td>Bird</td>
+<td>Vermivora celata</td>
+<td>Orange-Crowned Warbler</td>
 <td>NaN</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1289</td>
+<td data-quarto-table-cell-role="th">1224</td>
 <td>Vascular Plant</td>
-<td>Phlox subulata</td>
-<td>Moss Phlox</td>
+<td>Weigela florida</td>
+<td>Weigela</td>
 <td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2569</td>
+<td data-quarto-table-cell-role="th">2034</td>
 <td>Vascular Plant</td>
-<td>Laportea canadensis</td>
-<td>Wood Nettle, Wood-Nettle</td>
+<td>Carex rosea</td>
+<td>A Sedge, Roseate Sedge</td>
 <td>NaN</td>
 </tr>
 </tbody>
@@ -235,41 +217,47 @@ memory usage: 182.1+ KB</code></pre>
 </div>
 </div>
 </div>
+<div class="cell-output cell-output-display">
+<pre><code>'INFORMATION ABOUT THE SPECIES DATASET:'</code></pre>
 </div>
-</section>
-<section id="observations.csv" class="level3">
-<h3 class="anchored" data-anchor-id="observations.csv"><code>observations.csv</code></h3>
-<div id="813ea671" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>display(observations.info(), <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 23296 entries, 0 to 23295
-Data columns (total 3 columns):
- #   Column           Non-Null Count  Dtype 
----  ------           --------------  ----- 
- 0   scientific_name  23296 non-null  object
- 1   park_name        23296 non-null  object
- 2   observations     23296 non-null  int64 
-dtypes: int64(1), object(2)
-memory usage: 546.1+ KB</code></pre>
+RangeIndex: 5824 entries, 0 to 5823
+Data columns (total 4 columns):
+ #   Column               Non-Null Count  Dtype 
+---  ------               --------------  ----- 
+ 0   category             5824 non-null   object
+ 1   scientific_name      5824 non-null   object
+ 2   common_names         5824 non-null   object
+ 3   conservation_status  191 non-null    object
+dtypes: object(4)
+memory usage: 182.1+ KB</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <pre><code>None</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<pre><code>'\n'</code></pre>
 </div>
-</div>
-<p>According to the information displayed above, the <code>observations</code> dataset contains there are three columns:</p>
+<p>The <code>species</code> dataset shows 5824 entries with four variables:</p>
 <ul>
+<li><strong>category</strong>: taxonomy for each species.</li>
 <li><strong>scientific_name</strong>: scientific name of each species.</li>
-<li><strong>park_name</strong>: name of the national park species are located in.</li>
-<li><strong>observations</strong>: number of observations in the past 7 days.</li>
+<li><strong>common_names</strong>: common names of each species.</li>
+<li><strong>conservation_status</strong>: species’ conservation status.</li>
 </ul>
-<p>The columns don’t show any missing data, and the data types seem to be appropriate for the analysis. Below we preview a sample of the rows.</p>
-<div id="63abf2ff" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>observations.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<p>Upon inspection with .info(), we observe that the conservation_status column contains 191 non-null entries, indicating a high presence of missing values. While the majority of columns may retain their data type as objects, an argument could be made for converting conservation_status to an ordinal variable. However, due to the presence of incomplete conservation statuses and the ambiguity surrounding the ordinal nature of <code>in recovery</code>, we’ll retain it as an object.</p>
+</section>
+<section id="observations.csv" class="level3">
+<h3 class="anchored" data-anchor-id="observations.csv"><code>observations.csv</code></h3>
+<p>We’ll now move on to the <code>observations</code> dataset.</p>
+<div id="fe36c277" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"SAMPLE OF SPECIES DATASET:"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>display(observations.sample(<span class="dv">5</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"INFORMATION ABOUT THE SPECIES DATASET:"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>display(observations.info())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>'SAMPLE OF SPECIES DATASET:'</code></pre>
+</div>
+<div class="cell-output cell-output-display">
 <div>
 <div>
 
@@ -285,34 +273,34 @@ memory usage: 546.1+ KB</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">18667</td>
-<td>Quercus muehlenbergii</td>
-<td>Yosemite National Park</td>
-<td>171</td>
+<td data-quarto-table-cell-role="th">1115</td>
+<td>Dryopteris intermedia</td>
+<td>Great Smoky Mountains National Park</td>
+<td>87</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">22006</td>
-<td>Trifolium breweri</td>
+<td data-quarto-table-cell-role="th">21642</td>
+<td>Silene latifolia ssp. alba</td>
 <td>Great Smoky Mountains National Park</td>
-<td>68</td>
+<td>64</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">3559</td>
-<td>Philonotis fontana var. pumila</td>
-<td>Great Smoky Mountains National Park</td>
-<td>53</td>
+<td data-quarto-table-cell-role="th">1232</td>
+<td>Stephanomeria lactucina</td>
+<td>Yellowstone National Park</td>
+<td>281</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">17945</td>
-<td>Nyctanassa violacea</td>
-<td>Yosemite National Park</td>
-<td>148</td>
+<td data-quarto-table-cell-role="th">18786</td>
+<td>Erigeron lonchophyllus</td>
+<td>Yellowstone National Park</td>
+<td>286</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">14078</td>
-<td>Cryptantha glomeriflora</td>
-<td>Bryce National Park</td>
-<td>77</td>
+<td data-quarto-table-cell-role="th">10390</td>
+<td>Lychnis coronaria</td>
+<td>Great Smoky Mountains National Park</td>
+<td>87</td>
 </tr>
 </tbody>
 </table>
@@ -320,26 +308,51 @@ memory usage: 546.1+ KB</code></pre>
 </div>
 </div>
 </div>
+<div class="cell-output cell-output-display">
+<pre><code>'INFORMATION ABOUT THE SPECIES DATASET:'</code></pre>
 </div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 23296 entries, 0 to 23295
+Data columns (total 3 columns):
+ #   Column           Non-Null Count  Dtype 
+---  ------           --------------  ----- 
+ 0   scientific_name  23296 non-null  object
+ 1   park_name        23296 non-null  object
+ 2   observations     23296 non-null  int64 
+dtypes: int64(1), object(2)
+memory usage: 546.1+ KB</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>None</code></pre>
+</div>
+</div>
+<p>The <code>observations</code> dataset consists of three columns:</p>
+<ul>
+<li><strong>scientific_name</strong>: scientific name of each species.</li>
+<li><strong>park_name</strong>: name of the national park species are located in.</li>
+<li><strong>observations</strong>: number of observations in the past 7 days.</li>
+</ul>
+<p>Based on the information above, the columns don’t show any missing data, and the data types seem to be appropriate for the analysis.</p>
 </section>
 </section>
 <section id="exploratory-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
 <section id="species.csv-1" class="level3">
 <h3 class="anchored" data-anchor-id="species.csv-1"><code>species.csv</code></h3>
-<p>We will start by exploring the <code>species</code> dataset more in detail. To explore the characteristics of each column, we’ve created a function that loops over the columns and prints out the unique value count, the null value count, and a preview of the top most frequent values along with their counts.</p>
-<div id="ca145561" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> column_eda(dataset):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> <span class="bu">list</span>(dataset.columns)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> cols:</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'---------------</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">---------------'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Unique values:'</span>, dataset[col].nunique(), </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>              <span class="ss">f'Non-null values: </span><span class="sc">{</span>dataset[col]<span class="sc">.</span>notnull()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">'</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>              <span class="ss">f'Missing values: </span><span class="sc">{</span>dataset[col]<span class="sc">.</span>isnull()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>, </span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>              sep<span class="op">=</span><span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(dataset[col].value_counts().reset_index().head(<span class="dv">4</span>))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>column_eda(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s delve deeper into the species dataset to gain insights into its characteristics and identify any anomalies or patterns. We’ll begin by employing a custom function <code>column_eda()</code> to analyze each column:</p>
+<div id="086dd3f8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> column_eda(dataset):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> <span class="bu">list</span>(dataset.columns)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> cols:</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'---------------</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">---------------'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Unique values:'</span>, dataset[col].nunique(), </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>              <span class="ss">f'Non-null values: </span><span class="sc">{</span>dataset[col]<span class="sc">.</span>notnull()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>              <span class="ss">f'Missing values: </span><span class="sc">{</span>dataset[col]<span class="sc">.</span>isnull()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>              sep<span class="op">=</span><span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(dataset[col].value_counts().head(<span class="dv">4</span>))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>column_eda(species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>---------------category---------------
 Unique values:
@@ -347,57 +360,61 @@ Unique values:
 Non-null values: 5824
 Missing values: 0
 
-            category  count
-0     Vascular Plant   4470
-1               Bird    521
-2  Nonvascular Plant    333
-3             Mammal    214
+category
+Vascular Plant       4470
+Bird                  521
+Nonvascular Plant     333
+Mammal                214
+Name: count, dtype: int64
 ---------------scientific_name---------------
 Unique values:
 5541
 Non-null values: 5824
 Missing values: 0
 
-        scientific_name  count
-0     Castor canadensis      3
-1           Canis lupus      3
-2  Hypochaeris radicata      3
-3         Columba livia      3
+scientific_name
+Castor canadensis       3
+Canis lupus             3
+Hypochaeris radicata    3
+Columba livia           3
+Name: count, dtype: int64
 ---------------common_names---------------
 Unique values:
 5504
 Non-null values: 5824
 Missing values: 0
 
-         common_names  count
-0  Brachythecium Moss      7
-1       Dicranum Moss      7
-2         Panic Grass      6
-3          Bryum Moss      6
+common_names
+Brachythecium Moss    7
+Dicranum Moss         7
+Panic Grass           6
+Bryum Moss            6
+Name: count, dtype: int64
 ---------------conservation_status---------------
 Unique values:
 4
 Non-null values: 191
 Missing values: 5633
 
-  conservation_status  count
-0  Species of Concern    161
-1          Endangered     16
-2          Threatened     10
-3         In Recovery      4</code></pre>
+conservation_status
+Species of Concern    161
+Endangered             16
+Threatened             10
+In Recovery             4
+Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p>The function shows there are 7 categories of species, 5541 species, 5504 common names and 4 conservation statuses. Some preliminary remarks can be made from a first glance:</p>
+<p>The function shows there are 7 categories of species, 5541 species, 5504 common names and 4 conservation statuses. From the analysis, several insights emerge:</p>
 <ol type="1">
-<li><code>conservation_status</code> displays a high number of <code>nan</code> values (5633), which, given the available categories, may well be treated as ‘species of no concern’ or with ‘no intervention’.</li>
+<li><strong>Missing Conversation Statuses</strong>: the <code>conservation_status</code> column exhibits a high number of <code>nan</code> values (5633), which could be interpreted as ‘species of no concern’ or requiring ‘no intervention’.</li>
 </ol>
-<p>To attend this, I’ll change the missing values in the <code>conservation_status</code> column to “No intervention”, giving this column a total of 5 statuses.</p>
-<div id="36c91b81" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Old conservation status:</span><span class="ch">\n</span><span class="st">'</span>, <span class="bu">list</span>(species.conservation_status.unique()))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>species.conservation_status <span class="op">=</span> species.conservation_status.fillna(<span class="st">'No intervention'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'New conservation status:</span><span class="ch">\n</span><span class="st">'</span>, <span class="bu">list</span>(species.conservation_status.unique()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To address this, we’ll impute the missing values with “No intervention”, expanding the conservation status categories to five.</p>
+<div id="ca85a4e1" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Old conservation status:</span><span class="ch">\n</span><span class="st">'</span>, <span class="bu">list</span>(species.conservation_status.unique()))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>species.conservation_status <span class="op">=</span> species.conservation_status.fillna(<span class="st">'No intervention'</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'New conservation status:</span><span class="ch">\n</span><span class="st">'</span>, <span class="bu">list</span>(species.conservation_status.unique()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Old conservation status:
  [nan, 'Species of Concern', 'Endangered', 'Threatened', 'In Recovery']
@@ -406,28 +423,28 @@ New conservation status:
 </div>
 </div>
 <ol start="2" type="1">
-<li>There is a discrepancy between the number of unique values of <code>scientific_name</code> and <code>common_names</code> despite all entries having non-null values. This points to the presence of duplicate common names for different species.</li>
+<li><strong>Duplicate Entries</strong>: there is a discrepancy between the number of unique values of <code>scientific_name</code> and <code>common_names</code> despite all entries having non-null values. This points to the presence of duplicate common names for different species.</li>
 </ol>
-<p>To confirm this claim, I’ll scope both columns for duplicates.</p>
-<div id="8f86549d" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>duplicates <span class="op">=</span> species.duplicated().<span class="bu">sum</span>()</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Overall duplicates (rows): </span><span class="sc">{</span>duplicates<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>repeated_scientific_names <span class="op">=</span> species.duplicated(subset<span class="op">=</span>[<span class="st">'scientific_name'</span>]).<span class="bu">sum</span>()</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated scientific names: </span><span class="sc">{</span>repeated_scientific_names<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>repeated_common_names <span class="op">=</span>species.duplicated(subset<span class="op">=</span>[<span class="st">'common_names'</span>]).<span class="bu">sum</span>() </span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated common names: </span><span class="sc">{</span>repeated_common_names<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We’ll confirm this by identifying and examining these duplicates.</p>
+<div id="2f6ddafd" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>duplicates <span class="op">=</span> species.duplicated().<span class="bu">sum</span>()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Overall duplicates (rows): </span><span class="sc">{</span>duplicates<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>repeated_scientific_names <span class="op">=</span> species.duplicated(subset<span class="op">=</span>[<span class="st">'scientific_name'</span>]).<span class="bu">sum</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated scientific names: </span><span class="sc">{</span>repeated_scientific_names<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>repeated_common_names <span class="op">=</span> species.duplicated(subset<span class="op">=</span>[<span class="st">'common_names'</span>]).<span class="bu">sum</span>()</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated common names: </span><span class="sc">{</span>repeated_common_names<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Overall duplicates (rows): 0
 Duplicated scientific names: 283
 Duplicated common names: 320</code></pre>
 </div>
 </div>
-<p>The presence of more duplicates for common names than scientific names confirms the existence of multiple species having the same common name. To demonstrate this, we will print the most frequent common name along with the corresponding scientific names attached to it.</p>
-<div id="d8b7315a" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>display(species.common_names.value_counts().reset_index()[:<span class="dv">5</span>])</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>display(species.query(<span class="st">"common_names == 'Brachythecium Moss'"</span>)[[<span class="st">'common_names'</span>, <span class="st">'scientific_name'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To illustrate, we’ll display the most frequent common name alongside its associated scientific names.</p>
+<div id="3f142eda" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>display(species.common_names.value_counts().reset_index()[:<span class="dv">5</span>])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>display(species.query(<span class="st">"common_names == 'Brachythecium Moss'"</span>)[[<span class="st">'common_names'</span>, <span class="st">'scientific_name'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -529,23 +546,26 @@ Duplicated common names: 320</code></pre>
 </div>
 </div>
 </div>
-<p>As seen above, the most frequent common name is <em>Brachythecium Moss</em>, with a total of 7 different species named as such. Organisms in this example all share the same genus (i.e.&nbsp;brachythecium, a genus of moss), but differ in species, thus the different scientific names.</p>
-<p>Another open question is the fact that there are duplicates in <code>scientific_name</code>. Since the dataset contains observations about the different species, one would expect for there to be one observation per species. However, the duplicate scientific names indicate the presence of duplicate observations of the same species in the dataset.</p>
-<p>Since there are no overall duplicates in the dataset (see above), these duplicate names must have some difference at the row level. To delve deeper into this, we’ll print out a sample of duplicates and inspect three random dumplicates species, to see what kind of differences are there within the rows themselves.</p>
-<div id="7165af93" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>duplicated_species <span class="op">=</span> species[species[<span class="st">'scientific_name'</span>].duplicated(keep<span class="op">=</span><span class="va">False</span>)]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>display(<span class="st">'-------Sample of duplicated scientific names-------'</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>display(duplicated_species.head())</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_duplicated_species(scientific_name):</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    duplicated_entries <span class="op">=</span> duplicated_species[duplicated_species[<span class="st">'scientific_name'</span>] <span class="op">==</span> scientific_name]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    display(<span class="ss">f'-------Duplicated </span><span class="ch">\'</span><span class="sc">{</span>scientific_name<span class="sc">}</span><span class="ch">\'</span><span class="ss">-------'</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    display(duplicated_entries)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>scientific_names_to_check <span class="op">=</span> [<span class="st">'Cervus elaphus'</span>, <span class="st">'Canis lupus'</span>, <span class="st">'Odocoileus virginianus'</span>]</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scientific_name <span class="kw">in</span> scientific_names_to_check:</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    display_duplicated_species(scientific_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As seen above, the most frequent common name is <em>Brachythecium Moss</em>, with a total of 7 different species identified with this name. Organisms in this example all share the same genus (i.e.&nbsp;<em>brachythecium</em>, a genus of moss), but differ in species, thus the different scientific names.</p>
+<p>This demonstrates instances where multiple species share identical common names but differ in scientific nomenclature.</p>
+<ol start="3" type="1">
+<li><strong>Duplicate Scientific Names</strong>: the presence of duplicate scientific names suggests repeated observations of the same species, since the dataset should report the conservation status of each species, thus one observation per species.</li>
+</ol>
+<p>Since there are no overall duplicates in the dataset (see above), these duplicate names must have some difference at the row level. To confirm this, we’ll print out a sample of duplicates and inspect three random duplicates species, to see what kind of differences are there within the rows themselves.</p>
+<div id="af2ccf31" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>duplicated_species <span class="op">=</span> species[species[<span class="st">'scientific_name'</span>].duplicated(keep<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>display(<span class="st">'-------Sample of duplicated scientific names-------'</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>display(duplicated_species.head())</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> display_duplicated_species(scientific_name):</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    duplicated_entries <span class="op">=</span> duplicated_species[duplicated_species[<span class="st">'scientific_name'</span>] <span class="op">==</span> scientific_name]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    display(<span class="ss">f'-------Duplicated </span><span class="ch">\'</span><span class="sc">{</span>scientific_name<span class="sc">}</span><span class="ch">\'</span><span class="ss">-------'</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    display(duplicated_entries)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>scientific_names_to_check <span class="op">=</span> [<span class="st">'Cervus elaphus'</span>, <span class="st">'Canis lupus'</span>, <span class="st">'Odocoileus virginianus'</span>]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scientific_name <span class="kw">in</span> scientific_names_to_check:</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    display_duplicated_species(scientific_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>'-------Sample of duplicated scientific names-------'</code></pre>
 </div>
@@ -732,15 +752,15 @@ Duplicated common names: 320</code></pre>
 </div>
 </div>
 <p>It seems that both the number of common names and the types of conservation statuses are different for duplicate observations. That is, the same species exhibits both different common names, as well as conservation statuses. To solve the question of duplicates, given the differences in conversation statuses do not affect our question on the likelihood of endangerment given a species’ protection status, I’ll retain the first instance of these duplicates.</p>
-<div id="c3be4a14" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>species <span class="op">=</span> species.drop_duplicates(subset <span class="op">=</span> [<span class="st">'scientific_name'</span>], keep<span class="op">=</span> <span class="st">'first'</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>repeated_scientific_names <span class="op">=</span> species.scientific_name[species.scientific_name.duplicated()]</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated scientific names: </span><span class="sc">{</span><span class="bu">len</span>(repeated_scientific_names)<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'-------Previously duplicated examples (now clean)-------'</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>scientific_names_to_check <span class="op">=</span> [<span class="st">'Cervus elaphus'</span>, <span class="st">'Canis lupus'</span>, <span class="st">'Odocoileus virginianus'</span>]</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>display(species[species[<span class="st">'scientific_name'</span>].isin(scientific_names_to_check)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8ae8d260" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>species <span class="op">=</span> species.drop_duplicates(subset<span class="op">=</span>[<span class="st">'scientific_name'</span>], keep<span class="op">=</span><span class="st">'first'</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>repeated_scientific_names <span class="op">=</span> species.scientific_name[species.scientific_name.duplicated()]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Duplicated scientific names: </span><span class="sc">{</span><span class="bu">len</span>(repeated_scientific_names)<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'-------Previously duplicated examples (now clean)-------'</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>scientific_names_to_check <span class="op">=</span> [<span class="st">'Cervus elaphus'</span>, <span class="st">'Canis lupus'</span>, <span class="st">'Odocoileus virginianus'</span>]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>display(species[species[<span class="st">'scientific_name'</span>].isin(scientific_names_to_check)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Duplicated scientific names: 0
 
@@ -793,9 +813,9 @@ Duplicated common names: 320</code></pre>
 </section>
 <section id="observations.csv-1" class="level3">
 <h3 class="anchored" data-anchor-id="observations.csv-1"><code>observations.csv</code></h3>
-<p>I’ll perform the same analysis as above with the second dataset. I’ll scope the columns for unique values, the amount of nun-null values, and the top most frequent values along with their counts.</p>
-<div id="301e9192" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>column_eda(observations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Let’s extend our exploratory analysis to the observations dataset, mirroring the approach applied to the species dataset. We’ll begin by employing the <code>column_eda()</code> function to analyze each column.</p>
+<div id="73c02c4f" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>column_eda(observations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>---------------scientific_name---------------
 Unique values:
@@ -803,44 +823,57 @@ Unique values:
 Non-null values: 23296
 Missing values: 0
 
-        scientific_name  count
-0      Myotis lucifugus     12
-1         Puma concolor     12
-2  Hypochaeris radicata     12
-3        Holcus lanatus     12
+scientific_name
+Myotis lucifugus        12
+Puma concolor           12
+Hypochaeris radicata    12
+Holcus lanatus          12
+Name: count, dtype: int64
 ---------------park_name---------------
 Unique values:
 4
 Non-null values: 23296
 Missing values: 0
 
-                             park_name  count
-0  Great Smoky Mountains National Park   5824
-1               Yosemite National Park   5824
-2                  Bryce National Park   5824
-3            Yellowstone National Park   5824
+park_name
+Great Smoky Mountains National Park    5824
+Yosemite National Park                 5824
+Bryce National Park                    5824
+Yellowstone National Park              5824
+Name: count, dtype: int64
 ---------------observations---------------
 Unique values:
 304
 Non-null values: 23296
 Missing values: 0
 
-   observations  count
-0            84    220
-1            85    210
-2            91    206
-3            92    203</code></pre>
+observations
+84    220
+85    210
+91    206
+92    203
+Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p>The EDA for this dataset reveals there 23296 observations of 5541 unique species documented in 4 parks. The EDA for the <code>observations</code> column doesn’t reveal much useful information, given this is a numerical variable.</p>
-<p>However, this variable may proove usefull in answering some of the questions introduced above. To better explore this column given its data type, I’ll provide here some descriptive statistics on it.</p>
-<div id="b5e07aa3" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(observations.observations.describe())</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sns.histplot(x <span class="op">=</span> <span class="st">'observations'</span>, data <span class="op">=</span> observations, kde<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Total number of observations:'</span>, observations.observations.<span class="bu">sum</span>(), <span class="st">'in the past 7 days.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The column analysis revelas the following insights. There are 23296 observations of 5541 unique species documented in 4 parks. The number of species (<code>scientific_name</code>) in the <code>observations</code> datset coincides with the number of species in the <code>species</code> dataset. This suggest that the <code>observations</code> dataset contains observations of all species in the <code>species</code> dataset. To confirm this, we’ll check if the <code>scientific_name</code> column in the <code>observations</code> dataset is a subset of the <code>scientific_name</code> column in the <code>species</code> dataset.</p>
+<div id="02c6f2d1" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>species_names <span class="op">=</span> species.scientific_name</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>observations_names <span class="op">=</span> observations.scientific_name</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Is the observations dataset a subset of the species dataset? </span><span class="sc">{</span>observations_names<span class="sc">.</span>isin(species_names)<span class="sc">.</span><span class="bu">all</span>()<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Is the observations dataset a subset of the species dataset? True</code></pre>
+</div>
+</div>
+<p>The result confirms that the <code>observations</code> dataset is a subset of the <code>species</code> dataset, as all species in the <code>observations</code> dataset are also present in the <code>species</code> dataset.</p>
+<p>Furthermore, as <code>observations</code> is a numerical variable, its distribution provides insights into the frequency of species sightings. To better explore this column given its data type, I’ll provide here some descriptive statistics on it.</p>
+<div id="f997556b" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(observations.observations.describe())</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>sns.histplot(x<span class="op">=</span><span class="st">'observations'</span>, data<span class="op">=</span>observations, kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>display(<span class="ss">f'Total number of observations: </span><span class="sc">{</span>observations<span class="sc">.</span>observations<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss"> in the past 7 days.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>count    23296.000000
 mean       142.287904
@@ -850,35 +883,54 @@ min          9.000000
 50%        124.000000
 75%        195.000000
 max        321.000000
-Name: observations, dtype: float64
-Total number of observations: 3314739 in the past 7 days.</code></pre>
+Name: observations, dtype: float64</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="biodiversity_files/figure-html/cell-14-output-2.png" width="601" height="429" class="figure-img"></p>
+<p><img src="biodiversity_files/figure-html/cell-13-output-2.png" width="601" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>'Total number of observations: 3314739 in the past 7 days.'</code></pre>
+</div>
+</div>
+<p>The distribution of in the number of observations seems to follow a multimodal distribution, with at least three discernible peaks in the data: one at 80, another at 150, and a third at 250. This may suggest that the overall distribution is a combination of several distributions, grouped by a certain variable. Given the low number of disceernible peaks, this variable might be the <code>park_name</code> variable. That is: the distribution in the number of observations may be influenced by the size of the parks they were made in.</p>
+<p>To confirm this, we’ll plot the distribution of observations per park using the <code>hue</code> parameter in the seaborn histplot function.</p>
+<div id="f38b9ccd" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(x<span class="op">=</span><span class="st">'observations'</span>, data<span class="op">=</span>observations, kde<span class="op">=</span><span class="va">True</span>, hue<span class="op">=</span><span class="st">'park_name'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="biodiversity_files/figure-html/cell-14-output-1.png" width="593" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>As suspected, the distribution of observations is indeed influenced by the park in which they were made. The peaks in the distribution clearly correspond to each of the four parks in the dataset. This proves that the number of observations is influenced by the park in which they were made.</p>
 </section>
 <section id="summary" class="level3">
 <h3 class="anchored" data-anchor-id="summary">Summary</h3>
-<p>To summarize the findings of this EDA, I outline below the chief characteristics of both datasets.</p>
+<p>To encapsulate the insights obtained from our Exploratory Data Analysis (EDA), we present the key characteristics of both datasets.</p>
 <section id="species" class="level4">
 <h4 class="anchored" data-anchor-id="species"><code>species</code></h4>
 <ul>
-<li>Has 4 variables: category (the species taxonomy), scientific_name, common_names and conservation_status.</li>
-<li>All variables are either categorical or nominal.</li>
-<li>The data shows observations for 5541 unique species among 7 types, having 5504 common names and displaying 5 conservation statuses.</li>
+<li><strong>Dataset Overview</strong>: the data comprises 5,824 entries with 4 variables—category, scientific_name, common_names, and conservation_status—offering a diverse array of taxonomic information.</li>
+<li><strong>Missing Values</strong>: the conservation_status column contains 5,633 missing values, which were imputed with “No intervention” to account for species not under any conservation status.</li>
+<li><strong>Duplicates</strong>: the dataset contains no overall duplicates, but does exhibit duplicate scientific names, which were resolved by retaining the first instance of each duplicate.</li>
+<li><strong>Common Names</strong>: the dataset contains 5541 species, with some sharing identical common names but differing in scientific nomenclature.</li>
+<li><strong>Conservation Status</strong>: the dataset reports 5 conservation statuses, with most species not under any conservation status.</li>
 </ul>
 </section>
 <section id="observations" class="level4">
 <h4 class="anchored" data-anchor-id="observations"><code>observations</code></h4>
 <ul>
-<li>Has 3 variables: scientific_name, park_name and number of observations in the past 7 days.</li>
-<li>The variables are nominal, categorical and numerical respectively.</li>
-<li>The data shows 23296 entries of 5541 unique species documented in 4 parks in a total of 3314739 observations in the past 7 days.</li>
+<li><strong>Dataset Overview</strong>: the data consists of 23,296 entries with 3 variables—scientific_name, park_name, and observations—documenting species sightings in 4 national parks over 7 days.</li>
+<li><strong>Unique Species</strong>: the dataset contains observations of 5,541 unique species, all of which are present in the <code>species</code> dataset.</li>
+<li><strong>Missing Values</strong>: the dataset contains no missing values, with all columns having non-null entries.</li>
+<li><strong>Distribution</strong>: the number of observations followed a multimodal distribution, which was influenced by the park in which observations were conducted.</li>
 </ul>
 </section>
 </section>
@@ -891,27 +943,27 @@ Total number of observations: 3314739 in the past 7 days.</code></pre>
 <p>First, I’ll explore the distribution of animal categories among conservation statuses by grouping the <code>species</code> dataset by both columns and calculating the absolute and relative frequencies by conservation status. Then, I’ll plot them below.</p>
 <p>The most endangered animals in the dataset were mammals (6) and birds (4), while the only animal in recovery are birds (3), which could point to the fact that birds are recovering better than other animals.</p>
 <p>The distribution of species among categories and conservation statuses is depicted in the following plot.</p>
-<div id="f42cb06a" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>num_conservation <span class="op">=</span> <span class="bu">len</span>(species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>])</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>num_not_conservation <span class="op">=</span> <span class="bu">len</span>(species[species.conservation_status <span class="op">==</span> <span class="st">'No intervention'</span>])</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Total species under protection: </span><span class="sc">{</span>num_conservation<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Total species not under protection: </span><span class="sc">{</span>num_not_conservation<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>category_conservation <span class="op">=</span> species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>]<span class="op">\</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                        .groupby([<span class="st">'conservation_status'</span>, <span class="st">'category'</span>])[<span class="st">'scientific_name'</span>]<span class="op">\</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                        .count()<span class="op">\</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                        .unstack()<span class="op">\</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                        .replace(<span class="st">'nan'</span>, np.nan).fillna(<span class="dv">0</span>)</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"Absolute frequencies"</span>, category_conservation)</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> category_conservation.plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>), stacked <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Conservation Status'</span>)</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Number of Species'</span>)</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Animal Distribution among Conservation Statuses"</span>)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="eddf569d" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>num_conservation <span class="op">=</span> <span class="bu">len</span>(species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>])</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>num_not_conservation <span class="op">=</span> <span class="bu">len</span>(species[species.conservation_status <span class="op">==</span> <span class="st">'No intervention'</span>])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Total species under protection: </span><span class="sc">{</span>num_conservation<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Total species not under protection: </span><span class="sc">{</span>num_not_conservation<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>category_conservation <span class="op">=</span> species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>]<span class="op">\</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                        .groupby([<span class="st">'conservation_status'</span>, <span class="st">'category'</span>])[<span class="st">'scientific_name'</span>]<span class="op">\</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>                        .count()<span class="op">\</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>                        .unstack()<span class="op">\</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>                        .replace(<span class="st">'nan'</span>, np.nan).fillna(<span class="dv">0</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"Absolute frequencies"</span>, category_conservation)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> category_conservation.plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>), stacked <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'Conservation Status'</span>)</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Number of Species'</span>)</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Animal Distribution among Conservation Statuses"</span>)</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total species under protection: 178
 Total species not under protection: 5363</code></pre>
@@ -1007,15 +1059,15 @@ Total species not under protection: 5363</code></pre>
 </div>
 <p>In addition to that, the relative frequencies per conservation status reveal more information about the distribution of animal categories per status. - Mammals, birds and fish make up more than 85% of all endangered species documented in the <code>species</code> dataset. - More than 70% of species of concern are made up of birds and vascular plants. - As observed before, birds make up 100% of the species in recovery according to the dataset.</p>
 <p>These proportions can be clearly visualized in the plot below.</p>
-<div id="3ebc057e" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>category_conservation_rel <span class="op">=</span> species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>]<span class="op">\</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                            .groupby([<span class="st">'category'</span>, <span class="st">'conservation_status'</span>])[<span class="st">'scientific_name'</span>]<span class="op">\</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                            .count()<span class="op">\</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                            .unstack()<span class="op">\</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                            .replace(<span class="st">'nan'</span>, np.nan).fillna(<span class="dv">0</span>)<span class="op">\</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                            .<span class="bu">apply</span>(<span class="kw">lambda</span> x:  (<span class="dv">100</span><span class="op">*</span>x <span class="op">/</span> x.<span class="bu">sum</span>()).<span class="bu">round</span>(<span class="dv">2</span>))<span class="op">\</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                            .transpose()</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"Relative frequencies by category"</span>, category_conservation_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="edaa79d2" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>category_conservation_rel <span class="op">=</span> species[species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span>]<span class="op">\</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                            .groupby([<span class="st">'category'</span>, <span class="st">'conservation_status'</span>])[<span class="st">'scientific_name'</span>]<span class="op">\</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                            .count()<span class="op">\</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                            .unstack()<span class="op">\</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                            .replace(<span class="st">'nan'</span>, np.nan).fillna(<span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                            .<span class="bu">apply</span>(<span class="kw">lambda</span> x:  (<span class="dv">100</span><span class="op">*</span>x <span class="op">/</span> x.<span class="bu">sum</span>()).<span class="bu">round</span>(<span class="dv">2</span>))<span class="op">\</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                            .transpose()</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>display(<span class="st">"Relative frequencies by category"</span>, category_conservation_rel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>'Relative frequencies by category'</code></pre>
 </div>
@@ -1095,14 +1147,14 @@ Total species not under protection: 5363</code></pre>
 </div>
 </div>
 </div>
-<div id="c6a25455" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>axrel <span class="op">=</span> category_conservation_rel.plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>), stacked <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>axrel.set_xlabel(<span class="st">'Conservation Status'</span>)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>axrel.set_ylabel(<span class="st">'Number of Species'</span>)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>axrel.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>), loc <span class="op">=</span> <span class="st">'upper left'</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Proportions of Animals per Conservation Status"</span>)</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="596fb136" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>axrel <span class="op">=</span> category_conservation_rel.plot(kind<span class="op">=</span><span class="st">'bar'</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>), stacked <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>axrel.set_xlabel(<span class="st">'Conservation Status'</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>axrel.set_ylabel(<span class="st">'Number of Species'</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>axrel.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>,<span class="dv">1</span>), loc <span class="op">=</span> <span class="st">'upper left'</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Proportions of Animals per Conservation Status"</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1119,22 +1171,22 @@ Total species not under protection: 5363</code></pre>
 <h3 class="anchored" data-anchor-id="q-are-certain-types-of-species-more-likely-to-be-endangered">Q: Are certain types of species more likely to be endangered?</h3>
 <p>The next question concerns the relation between species and their conservation status. To answer this question, I’ll group the conservation statuses into those reflecting some kind of intervention and those without. No intervention will become a marker for risk of endangerment.</p>
 <p>After this I’ll group the species categories and calculate the amount protected and not protected.</p>
-<div id="54372c26" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>species[<span class="st">'protected'</span>] <span class="op">=</span> species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>category_protections <span class="op">=</span> species.groupby([<span class="st">'category'</span>, <span class="st">'protected'</span>])<span class="op">\</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                        .scientific_name.nunique()<span class="op">\</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                        .reset_index()<span class="op">\</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                        .pivot_table(columns <span class="op">=</span> <span class="st">'protected'</span>,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                                    index <span class="op">=</span> <span class="st">'category'</span>,</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                                    values <span class="op">=</span> <span class="st">'scientific_name'</span>)<span class="op">\</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                        .reset_index()</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>category_protections.columns <span class="op">=</span> [<span class="st">'category'</span>, <span class="st">'not_protected'</span>, <span class="st">'protected'</span>]</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>category_protections[<span class="st">'percentage_protected'</span>] <span class="op">=</span> (category_protections.protected <span class="op">/</span> <span class="op">\</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                                                (category_protections.protected <span class="op">+</span> category_protections.not_protected) <span class="op">*</span> <span class="dv">100</span>)<span class="op">\</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>                                                .<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>display(category_protections)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c0a4c3c0" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>species[<span class="st">'protected'</span>] <span class="op">=</span> species.conservation_status <span class="op">!=</span> <span class="st">'No intervention'</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>category_protections <span class="op">=</span> species.groupby([<span class="st">'category'</span>, <span class="st">'protected'</span>])<span class="op">\</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                        .scientific_name.nunique()<span class="op">\</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                        .reset_index()<span class="op">\</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                        .pivot_table(columns <span class="op">=</span> <span class="st">'protected'</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                                    index <span class="op">=</span> <span class="st">'category'</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                                    values <span class="op">=</span> <span class="st">'scientific_name'</span>)<span class="op">\</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>                        .reset_index()</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>category_protections.columns <span class="op">=</span> [<span class="st">'category'</span>, <span class="st">'not_protected'</span>, <span class="st">'protected'</span>]</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>category_protections[<span class="st">'percentage_protected'</span>] <span class="op">=</span> (category_protections.protected <span class="op">/</span> <span class="op">\</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>                                                (category_protections.protected <span class="op">+</span> category_protections.not_protected) <span class="op">*</span> <span class="dv">100</span>)<span class="op">\</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>                                                .<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>display(category_protections)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -1208,11 +1260,11 @@ Total species not under protection: 5363</code></pre>
 </div>
 </div>
 <p>With this information, we can now visualize the percentages of protection for each species category. Based on this, mammals and birds display the highest proportion of protection with roughly 17% and 15% under protection, respectively. Thus, these species types are the most likely to be endangered among categories. The bar chart below visualizes the percentages per category.</p>
-<div id="1c6fb72c" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data <span class="op">=</span> category_protections, y <span class="op">=</span> <span class="st">'percentage_protected'</span>, x <span class="op">=</span> <span class="st">'category'</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ba365b58" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data <span class="op">=</span> category_protections, y <span class="op">=</span> <span class="st">'percentage_protected'</span>, x <span class="op">=</span> <span class="st">'category'</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>plt.clf()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1230,36 +1282,36 @@ Total species not under protection: 5363</code></pre>
 <p>The question of statistical significance for categorical variables is answered in statistics by use of the chi-square test.</p>
 <p>Since crosstabulating both variables would yield a complex result, it’s better to break down the question into pairs of species categories. Since based on the previous question mammals are the most protected category, I’ll compare the significance of other category differences with mammals.</p>
 <p>I’ll start by permutating the pairs of categories with mammals. Then I’ll loop over this list to perform the chi-square tests for each pair and plot the p-values to find the statistically significant differences among category pairs.</p>
-<div id="7f224630" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2_contingency</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Permutations</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> <span class="bu">list</span>(species.category.unique())</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>combinations_mammal <span class="op">=</span> [[<span class="st">'Mammal'</span>, i] <span class="cf">for</span> i <span class="kw">in</span> categories][<span class="dv">1</span>:]</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>category_protections_part <span class="op">=</span> category_protections.iloc[:, <span class="dv">0</span>:<span class="dv">3</span>]</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>category_protections_part <span class="op">=</span> category_protections_part.set_index(<span class="st">'category'</span>)</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Significant Differences Data</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>sign_data <span class="op">=</span> {<span class="st">'Animal Pair'</span>: [], <span class="st">'p-value'</span>: []}</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pair <span class="kw">in</span> combinations_mammal:</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    contingency_table <span class="op">=</span> pd.DataFrame({pair[<span class="dv">0</span>]: category_protections_part.loc[pair[<span class="dv">0</span>]],</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>                                    pair[<span class="dv">1</span>]: category_protections_part.loc[pair[<span class="dv">1</span>]]}) </span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    chi2, pval, dof, expected <span class="op">=</span> chi2_contingency(contingency_table)</span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    sign_data[<span class="st">'Animal Pair'</span>].append(pair[<span class="dv">1</span>])</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    sign_data[<span class="st">'p-value'</span>].append((pval<span class="op">*</span><span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>sign_data <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> sign_data).sort_values(<span class="st">'p-value'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>display(sign_data)</span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span>sns.barplot(data <span class="op">=</span> sign_data, x <span class="op">=</span> <span class="st">'Animal Pair'</span>, y <span class="op">=</span> <span class="st">'p-value'</span>)</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Statistical Significance of Protection Statuses per Animal</span><span class="ch">\n</span><span class="st">(difference with mammals)'</span>)</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">5</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'p-value in percent</span><span class="ch">\n</span><span class="st">(alpha = 5%)'</span>)</span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks(rotation=45)</span></span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>ax.bar_label(ax.containers[<span class="dv">0</span>])</span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4b3049ad" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> chi2_contingency</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Permutations</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> <span class="bu">list</span>(species.category.unique())</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>combinations_mammal <span class="op">=</span> [[<span class="st">'Mammal'</span>, i] <span class="cf">for</span> i <span class="kw">in</span> categories][<span class="dv">1</span>:]</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>category_protections_part <span class="op">=</span> category_protections.iloc[:, <span class="dv">0</span>:<span class="dv">3</span>]</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>category_protections_part <span class="op">=</span> category_protections_part.set_index(<span class="st">'category'</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Significant Differences Data</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>sign_data <span class="op">=</span> {<span class="st">'Animal Pair'</span>: [], <span class="st">'p-value'</span>: []}</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pair <span class="kw">in</span> combinations_mammal:</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    contingency_table <span class="op">=</span> pd.DataFrame({pair[<span class="dv">0</span>]: category_protections_part.loc[pair[<span class="dv">0</span>]],</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>                                    pair[<span class="dv">1</span>]: category_protections_part.loc[pair[<span class="dv">1</span>]]}) </span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    chi2, pval, dof, expected <span class="op">=</span> chi2_contingency(contingency_table)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    sign_data[<span class="st">'Animal Pair'</span>].append(pair[<span class="dv">1</span>])</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    sign_data[<span class="st">'p-value'</span>].append((pval<span class="op">*</span><span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>sign_data <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> sign_data).sort_values(<span class="st">'p-value'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>display(sign_data)</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">5</span>))</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span>sns.barplot(data <span class="op">=</span> sign_data, x <span class="op">=</span> <span class="st">'Animal Pair'</span>, y <span class="op">=</span> <span class="st">'p-value'</span>)</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Statistical Significance of Protection Statuses per Animal</span><span class="ch">\n</span><span class="st">(difference with mammals)'</span>)</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">5</span>, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'p-value in percent</span><span class="ch">\n</span><span class="st">(alpha = 5%)'</span>)</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.xticks(rotation=45)</span></span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>ax.bar_label(ax.containers[<span class="dv">0</span>])</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -1324,14 +1376,14 @@ Total species not under protection: 5363</code></pre>
 <h3 class="anchored" data-anchor-id="q-which-species-were-spotted-the-most-at-each-park">Q: Which species were spotted the most at each park?</h3>
 <p>This final section will concern the second dataset, <code>observations</code>, to quantify the amount of observations per species in each of the parks listed.</p>
 <p>Since the dataset doesn’t include common names, I’ll use the <code>species</code> dataset to merge these names into the <code>observations</code> dataset. Then, I’ll group the data by park and by species/common names, and sum their observations to rank the most spoted species per park.</p>
-<div id="c4717d7a" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> observations.merge(species[[<span class="st">'category'</span>, <span class="st">'scientific_name'</span>, <span class="st">'common_names'</span>]], how<span class="op">=</span><span class="st">'left'</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.drop_duplicates()</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>merged_df_grouped <span class="op">=</span> merged_df.groupby([<span class="st">'park_name'</span>, <span class="st">'scientific_name'</span>, <span class="st">'common_names'</span>, <span class="st">'category'</span>]).observations<span class="op">\</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                        .<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>)<span class="op">\</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                        .reset_index()</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>display(merged_df_grouped.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7949599c" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> observations.merge(species[[<span class="st">'category'</span>, <span class="st">'scientific_name'</span>, <span class="st">'common_names'</span>]], how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>merged_df <span class="op">=</span> merged_df.drop_duplicates()</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>merged_df_grouped <span class="op">=</span> merged_df.groupby([<span class="st">'park_name'</span>, <span class="st">'scientific_name'</span>, <span class="st">'common_names'</span>, <span class="st">'category'</span>]).observations<span class="op">\</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>                        .<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>)<span class="op">\</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>                        .reset_index()</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>display(merged_df_grouped.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
@@ -1397,12 +1449,12 @@ Total species not under protection: 5363</code></pre>
 </div>
 </div>
 <p>The previous table shows the number of observations for each species, grouped by park. To answer the question above, I’ll create a table with the max value of observations per park, to show the species that was most spotted in each of the parks.</p>
-<div id="63d31303" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>merged_df_grouped_max <span class="op">=</span> merged_df_grouped.loc[merged_df_grouped<span class="op">\</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                                                    .groupby([<span class="st">'park_name'</span>])<span class="op">\</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                                                    [<span class="st">'observations'</span>].idxmax()]<span class="op">\</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                                                .sort_values(by <span class="op">=</span> <span class="st">'observations'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>display(merged_df_grouped_max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0622e8d8" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>merged_df_grouped_max <span class="op">=</span> merged_df_grouped.loc[merged_df_grouped<span class="op">\</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                                                    .groupby([<span class="st">'park_name'</span>])<span class="op">\</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                                                    [<span class="st">'observations'</span>].idxmax()]<span class="op">\</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>                                                .sort_values(by <span class="op">=</span> <span class="st">'observations'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>display(merged_df_grouped_max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div>
